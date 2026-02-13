@@ -1,0 +1,30 @@
+trigger:
+  - main
+
+parameters:
+  - name: environment
+    type: string
+    default: dev
+    values:
+      - dev
+      - uat
+      - prod
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: Deploy
+    displayName: Deploy Infrastructure
+    jobs:
+      - job: DeployBicep
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: Deploy Bicep
+            inputs:
+              azureSubscription: 'TODO-service-connection'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                echo "TODO: run az deployment group create with parameters.${{ parameters.environment }}.json"
